@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.dao.GonggaoDao">
+
+	<resultMap id="gonggaoResultMap" type="com.entity.Gonggao">   
+        <id property="id" column="id"/>    
+        <result property="gbiaoti" column="gbiaoti"/>  
+        <result property="gneirong" column="gneirong"/>  
+        <result property="ctime" column="ctime"/> 
+       
+     </resultMap>  	
+
+	<!-- 插入到数据库 -->
+	<insert id="insertBean"
+		parameterType="com.entity.Gonggao">
+		insert into t_gonggao (gbiaoti,gneirong,ctime) 
+		values (#{gbiaoti},#{gneirong},#{ctime})
+	</insert>
+	
+	<!-- 根据ID删除数据库的记录 -->
+	<delete id="deleteBean"
+		parameterType="int">
+		delete from t_gonggao
+		where id=#{id}	
+	</delete>
+	
+	<!-- 根据ID更新数据库的记录 -->
+	<update id="updateBean"
+		parameterType="com.entity.Gonggao">
+		update
+			t_gonggao 
+		<set>
+			<trim suffixOverrides=",">
+				
+				<if test="gbiaoti !=null">
+					gbiaoti=#{gbiaoti},
+				</if>
+				<if test="gneirong !=null">
+					gneirong=#{gneirong},
+				</if>
+				<if test="ctime !=null">
+					ctime=#{ctime}
+				</if>
+			</trim>
+		</set>
+		where 
+			id=#{id} 
+ 
+	</update>
+	
+
+	<select id="selectBeanById" parameterType="com.entity.Gonggao"
+		resultMap="gonggaoResultMap" >
+		select * from t_gonggao where id=#{id}   
+	</select>
+	
+	
+
+      
+   
+    <select id="selectBeanList" parameterType="string"
+		resultMap="gonggaoResultMap" >
+		select * from t_gonggao 
+			where 1=1
+        <if test="gbiaoti != '' and gbiaoti != null">    
+            and gbiaoti like '%' #{gbiaoti} '%'
+        </if>    
+       
+        order by id desc
+		limit #{start}, #{limit}
+			
+	</select>
+	
+	
+	<select id="selectBeanCount" parameterType="string"
+		resultType="int" >
+		select count(id) from t_gonggao 
+			where 1=1
+        <if test="gbiaoti != '' and gbiaoti != null">    
+            and gbiaoti like '%' #{gbiaoti} '%'
+        </if>    
+  
+	</select>
+	
+	
+	
+	
+	
+</mapper>
+
+
+
+
+
+
+

@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.dao.UserDao">
+
+	<resultMap id="userResultMap" type="com.entity.User">   
+        <id property="id" column="id"/>    
+        <result property="username" column="username"/>  
+        <result property="password" column="password"/>  
+        <result property="createtime" column="createtime"/>  
+        <result property="role" column="role"/>  
+        <result property="name" column="name"/>
+        <result property="tej" column="tej"/>
+        <result property="sfz" column="sfz"/>
+       
+     </resultMap>  	
+     	<resultMap id="vipResultMap" type="com.entity.Vip">   
+        <id property="id" column="id"/>    
+        <result property="username" column="username"/>  
+        <result property="points" column="points"/>  
+        <result property="level" column="level"/>  
+        <result property="enddate" column="enddate"/>  
+        <result property="consumed" column="consumed"/>
+
+     </resultMap>  	
+
+	<!-- 插入到数据库 -->
+	<insert id="insertBean"
+		parameterType="com.entity.User">
+		insert into t_user (
+			username,
+			password,
+			createtime,
+			role,
+			name,
+			sfz,
+			tej
+		) values (
+			#{username},
+			#{password},
+			#{createtime},	
+			#{role},
+			#{name},
+			#{sfz},
+			#{tej}
+		)
+	</insert>
+	
+	<!-- 根据ID删除数据库的记录 -->
+	<delete id="deleteBean"
+		parameterType="int">
+		delete from t_user
+		where id=#{id}	
+	</delete>
+	
+	<!-- 根据ID更新数据库的记录 -->
+	<update id="updateBean"
+		parameterType="com.entity.User">
+		update
+			t_user 
+		<set>
+			<trim suffixOverrides=",">
+				
+				<if test="username !=null">
+					username=#{username},
+				</if>
+				<if test="password !=null">
+					password=#{password},
+				</if>
+				<if test="createtime !=null">
+					createtime=#{createtime},
+				</if>
+				<if test="role !=null">
+					role=#{role},
+				</if>
+				<if test="name !=null">
+					name=#{name},
+				</if>
+				<if test="sfz !=null">
+					sfz=#{sfz},
+				</if>
+				<if test="tej !=null">
+					tej=#{tej}
+				</if>
+			</trim>
+		</set>
+		where 
+			id=#{id} 
+ 
+	</update>
+	
+	
+	
+	
+	
+	<!-- 用户登录 -->
+	<select id="userlogin" resultMap="userResultMap" >
+		select 
+			id ,
+			username ,
+			password ,
+			createtime ,
+			role ,
+			name ,
+			tej 
+		from 
+			t_user  
+			where username=#{username} and password=#{password} and role=#{role}
+	</select>
+	
+	
+	<!-- 验证用户名是否存在 -->
+	<select id="useryz" resultMap="userResultMap" >
+		select 
+			id ,
+			username ,
+			password ,
+			createtime ,
+			role ,
+			name ,
+			tej 
+		from 
+			t_user  
+			where username=#{username} 
+	</select>
+	
+	<!-- 验证身份证号是否存在 -->
+	<select id="sfzyz" resultMap="userResultMap" >
+		select 
+			id ,
+			username ,
+			password ,
+			createtime ,
+			role ,
+			name ,
+			sfz ,
+			tej 
+		from 
+			t_user  
+			where sfz=#{sfz} 
+	</select>
+	
+	
+	
+	
+	<select id="selectBeanById" parameterType="com.entity.User"
+		resultMap="userResultMap" >
+		select 
+			id ,
+			username ,
+			password ,
+			createtime ,
+			role ,
+			name ,
+			sfz ,
+			tej 
+		from 
+			t_user 
+			where id=#{id}   
+	</select>
+	
+	
+		<select id="selectBeanByUsername" parameterType="com.entity.User"
+		resultMap="userResultMap" >
+		select 
+			id ,
+			username ,
+			password ,
+			createtime ,
+			role ,
+			name ,
+			sfz ,
+			tej 
+		from 
+			t_user 
+			where username=#{username}   
+	</select>
+	
+	
+
+      
+   
+    <select id="selectBeanList" parameterType="string"
+		resultMap="userResultMap" >
+		select 
+			*
+		from 
+			t_user 
+			where (role=2 or role=3)
+        <if test="username != '' and username != null">    
+            and username like '%' #{username} '%'
+        </if>    
+       
+        order by id desc
+		limit #{start}, #{limit}
+			
+	</select>
+	
+	
+	<select id="selectBeanCount" parameterType="string"
+		resultType="int" >
+		select 
+			count(id)
+		from 
+			t_user 
+			where (role=2 or role=3)
+        <if test="username != '' and username != null">    
+            and username like '%' #{username} '%'
+        </if>    
+       
+        
+        
+	</select>
+	
+	
+	
+	<select id="selectBeanList2" parameterType="string"
+		resultMap="userResultMap" >
+		select 
+			*
+		from 
+			t_user 
+			where role=4
+        <if test="username != '' and username != null">    
+            and username like '%' #{username} '%'
+        </if>    
+       
+        order by id desc
+		limit #{start}, #{limit}
+			
+	</select>
+			<select id="selectBeanCount2" parameterType="string"
+		resultType="int" >
+		select 
+			count(id)
+		from 
+			t_user 
+			where 1=1
+        <if test="username != '' and username != null">    
+            and username like '%' #{username} '%'
+        </if>    
+       
+        
+        
+	</select>
+	
+		<select id="selectBeanList3" parameterType="string"
+		resultMap="vipResultMap" >
+		select 
+			*
+		from 
+			t_vip
+			where 1=1
+        <if test="username != '' and username != null">    
+            and username like '%' #{username} '%'
+        </if>    
+       
+        order by id desc
+		limit #{start}, #{limit}
+			
+	</select>
+	
+	
+	<select id="selectBeanCount3" parameterType="string"
+		resultType="int" >
+		select 
+			count(id)
+		from 
+			t_vip
+			where 1=1
+        <if test="username != '' and username != null">    
+            and username like '%' #{username} '%'
+        </if>    
+	</select>
+	
+	<select id="selectBeanList4" parameterType="string"
+		resultMap="userResultMap" >
+		SELECT * FROM t_user
+		 where username not in(SELECT username from t_vip ) and role='4'
+		<if test="username != '' and username != null"> 
+		and username like '%' #{username} '%'
+		 </if>
+		limit #{start}, #{limit}
+			
+	</select>
+	
+	
+	<select id="selectBeanCount4" parameterType="string"
+		resultType="int" >
+		SELECT count(id) FROM t_user where username not in(SELECT username from t_vip ) and role='4'
+		        <if test="username != '' and username != null">
+            and username like '%' #{username} '%'
+        </if> 
+	</select>
+	
+
+	
+</mapper>
+
+
+
+
+
+
+

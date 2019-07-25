@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.dao.YudingDao">
+
+	<resultMap id="yudingResultMap" type="com.entity.Yuding">   
+        <id property="id" column="id"/>    
+        <result property="xingming" column="xingming"/>  
+        <result property="sfz" column="sfz"/>  
+        <result property="dianhua" column="dianhua"/>  
+        <result property="sfz2" column="sfz2"/>  
+        <result property="jsz" column="jsz"/>
+        <result property="kehuid" column="kehuid"/>
+        <result property="zhuangtai" column="zhuangtai"/>
+        <result property="shijian1" column="shijian1"/>
+        <result property="shijian2" column="shijian2"/>
+        <result property="chepai" column="chepai"/>
+        <result property="carid" column="carid"/>
+        <result property="workid" column="workid"/>
+        <result property="beizhu" column="beizhu"/>
+       
+     </resultMap>  	
+
+	<!-- 插入到数据库 -->
+	<insert id="insertBean"
+		parameterType="com.entity.Yuding">
+		insert into t_yuding (xingming,sfz,dianhua,sfz2,jsz,kehuid,zhuangtai,shijian1,shijian2,chepai,carid,workid,beizhu) 
+		values (#{xingming},#{sfz},#{dianhua},#{sfz2},#{jsz},#{kehuid},#{zhuangtai},#{shijian1},#{shijian2},#{chepai},#{carid},#{workid},#{beizhu})
+	</insert>
+	
+	<!-- 根据ID删除数据库的记录 -->
+	<delete id="deleteBean"
+		parameterType="int">
+		delete from t_yuding
+		where id=#{id}	
+	</delete>
+	
+	<!-- 根据ID更新数据库的记录 -->
+	<update id="updateBean"
+		parameterType="com.entity.Yuding">
+		update
+			t_yuding 
+		<set>
+			<trim suffixOverrides=",">
+				
+				<if test="xingming !=null">
+					xingming=#{xingming},
+				</if>
+				<if test="sfz !=null">
+					sfz=#{sfz},
+				</if>
+				<if test="dianhua !=null">
+					dianhua=#{dianhua},
+				</if>
+				<if test="sfz2 !=null">
+					sfz2=#{sfz2},
+				</if>
+				<if test="jsz !=null">
+					jsz=#{jsz},
+				</if>
+				<if test="kehuid !=null">
+					kehuid=#{kehuid},
+				</if>
+				<if test="zhuangtai !=null">
+					zhuangtai=#{zhuangtai},
+				</if>
+				<if test="shijian1 !=null">
+					shijian1=#{shijian1},
+				</if>
+				<if test="shijian2 !=null">
+					shijian2=#{shijian2},
+				</if>
+				<if test="chepai !=null">
+					chepai=#{chepai},
+				</if>
+				<if test="carid !=null">
+					carid=#{carid},
+				</if>
+				<if test="workid !=null">
+					workid=#{workid},
+				</if>
+				<if test="beizhu !=null">
+					beizhu=#{beizhu}
+				</if>
+			</trim>
+		</set>
+		where 
+			id=#{id} 
+ 
+	</update>
+	
+
+	<select id="selectBeanById" parameterType="com.entity.Yuding"
+		resultMap="yudingResultMap" >
+		select * from t_yuding where id=#{id}   
+	</select>
+	
+	
+
+      
+   
+    <select id="selectBeanList" parameterType="string"
+		resultMap="yudingResultMap" >
+		select * from t_yuding 
+			where 1=1
+        <if test="chepai != '' and chepai != null">    
+            and chepai like '%' #{chepai} '%'
+        </if>   
+        <if test="sfz != '' and sfz != null">    
+            and sfz like '%' #{sfz} '%'
+        </if>    
+        <if test="kehuid != 0">   
+            and kehuid= #{kehuid} 
+        </if>    
+        <if test="workid != 0">    
+            and workid= #{workid} 
+        </if>   
+        <if test="zhuangtai != '' and zhuangtai != null">    
+            and zhuangtai like '%' #{zhuangtai} '%'
+        </if>    
+       
+        order by id desc
+		limit #{start}, #{limit}
+			
+	</select>
+	
+	
+	<select id="selectBeanCount" parameterType="string"
+		resultType="int" >
+		select count(id) from t_yuding 
+			where 1=1
+        <if test="chepai != '' and chepai != null">    
+            and chepai like '%' #{chepai} '%'
+        </if>   
+        <if test="sfz != '' and sfz != null">    
+            and sfz like '%' #{sfz} '%'
+        </if>    
+        <if test="kehuid != 0">    
+            and kehuid= #{kehuid} 
+        </if>    
+        <if test="workid != 0">    
+            and workid= #{workid} 
+        </if>     
+         <if test="zhuangtai != '' and zhuangtai != null">    
+            and zhuangtai like '%' #{zhuangtai} '%'
+        </if>    
+	</select>
+	
+	
+	
+	
+	
+</mapper>
+
+
+
+
+
+
+

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.dao.CarDao">
+
+	<resultMap id="carResultMap" type="com.entity.Car">   
+        <id property="id" column="id"/>    
+        <result property="chepai" column="chepai"/>  
+        <result property="chejia" column="chejia"/>  
+        <result property="pinpai" column="pinpai"/>  
+        <result property="pic" column="pic"/>  
+        <result property="price" column="price"/>
+        <result property="xinghao" column="xinghao"/>
+        <result property="xsz" column="xsz"/>
+        <result property="yanse" column="yanse"/>
+        <result property="zujin" column="zujin"/>
+        <result property="status" column="status"/>
+        <result property="ctime" column="ctime"/>
+        <result property="weihu" column="weihu"/>
+        <result property="tzujin" column="tzujin"/>
+       
+     </resultMap>  	
+
+	<!-- 插入到数据库 -->
+	<insert id="insertBean"
+		parameterType="com.entity.Car">
+		insert into t_car (chepai,chejia,pinpai,pic,price,xinghao,xsz,yanse,zujin,status,ctime,weihu,tzujin) 
+		values (#{chepai},#{chejia},#{pinpai},#{pic},#{price},#{xinghao},#{xsz},#{yanse},#{zujin},#{status},#{ctime},#{weihu},#{tzujin})
+	</insert>
+	
+	<!-- 根据ID删除数据库的记录 -->
+	<delete id="deleteBean"
+		parameterType="int">
+		delete from t_car
+		where id=#{id}	
+	</delete>
+	
+	<!-- 根据ID更新数据库的记录 -->
+	<update id="updateBean"
+		parameterType="com.entity.Car">
+		update
+			t_car 
+		<set>
+			<trim suffixOverrides=",">
+				
+				<if test="chepai !=null">
+					chepai=#{chepai},
+				</if>
+				<if test="chejia !=null">
+					chejia=#{chejia},
+				</if>
+				<if test="pinpai !=null">
+					pinpai=#{pinpai},
+				</if>
+				<if test="pic !=null">
+					pic=#{pic},
+				</if>
+				<if test="price !=null">
+					price=#{price},
+				</if>
+				<if test="xinghao !=null">
+					xinghao=#{xinghao},
+				</if>
+				<if test="xsz !=null">
+					xsz=#{xsz},
+				</if>
+				<if test="yanse !=null">
+					yanse=#{yanse},
+				</if>
+				<if test="zujin !=null">
+					zujin=#{zujin},
+				</if>
+				<if test="status !=null">
+					status=#{status},
+				</if>
+				<if test="ctime !=null">
+					ctime=#{ctime},
+				</if>
+				<if test="weihu !=null">
+					weihu=#{weihu},
+				</if>
+				<if test="tzujin !=null">
+					tzujin=#{tzujin}
+				</if>
+			</trim>
+		</set>
+		where 
+			id=#{id} 
+ 
+	</update>
+	
+
+	<select id="selectBeanById" parameterType="com.entity.Car"
+		resultMap="carResultMap" >
+		select * from t_car where id=#{id}   
+	</select>
+	
+	
+
+      
+   
+    <select id="selectBeanList" parameterType="string"
+		resultMap="carResultMap" >
+		select * from t_car 
+			where 1=1
+        <if test="chepai != '' and chepai != null">    
+            and chepai like '%' #{chepai} '%'
+        </if>   
+        <if test="pinpai != '' and pinpai != null">    
+            and pinpai like '%' #{pinpai} '%'
+        </if>    
+        <if test="xinghao != '' and xinghao != null">    
+            and xinghao like '%' #{xinghao} '%'
+        </if>    
+        <if test="yanse != '' and yanse != null">    
+            and yanse like '%' #{yanse} '%'
+        </if>     
+       
+        order by id desc
+		limit #{start}, #{limit}
+			
+	</select>
+	
+	
+	<select id="selectBeanCount" parameterType="string"
+		resultType="int" >
+		select count(id) from t_car 
+			where 1=1
+        <if test="chepai != '' and chepai != null">    
+            and chepai like '%' #{chepai} '%'
+        </if>    
+  		<if test="pinpai != '' and pinpai != null">    
+            and pinpai like '%' #{pinpai} '%'
+        </if>    
+        <if test="xinghao != '' and xinghao != null">    
+            and xinghao like '%' #{xinghao} '%'
+        </if>    
+        <if test="yanse != '' and yanse != null">    
+            and yanse like '%' #{yanse} '%'
+        </if>     
+	</select>
+	
+	
+	
+	
+	
+</mapper>
+
+
+
+
+
+
+

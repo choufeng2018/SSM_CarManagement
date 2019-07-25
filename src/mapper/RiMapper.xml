@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.dao.RiDao">
+
+	<resultMap id="riResultMap" type="com.entity.Ri">   
+        <id property="id" column="id"/>    
+        <result property="ri" column="ri"/>  
+        <result property="jine" column="jine"/>  
+        <result property="weihu" column="weihu"/>  
+       
+     </resultMap>  	
+
+	<!-- 插入到数据库 -->
+	<insert id="insertBean"
+		parameterType="com.entity.Ri">
+		insert into t_ri (ri,jine,weihu) 
+		values (#{ri},#{jine},#{weihu})
+	</insert>
+	
+	<!-- 根据ID删除数据库的记录 -->
+	<delete id="deleteBean"
+		parameterType="int">
+		delete from t_ri
+		where id=#{id}	
+	</delete>
+	
+	<!-- 根据ID更新数据库的记录 -->
+	<update id="updateBean"
+		parameterType="com.entity.Ri">
+		update
+			t_ri 
+		<set>
+			<trim suffixOverrides=",">
+				
+				<if test="ri !=null">
+					ri=#{ri},
+				</if>
+				<if test="jine !=null">
+					jine=#{jine},
+				</if>
+				<if test="weihu !=null">
+					weihu=#{weihu}
+				</if>
+				
+			</trim>
+		</set>
+		where 
+			id=#{id} 
+ 
+	</update>
+	
+
+	<select id="selectBeanById" parameterType="com.entity.Ri"
+		resultMap="riResultMap" >
+		select * from t_ri where id=#{id}   
+	</select>
+	
+	
+
+      
+   
+    <select id="selectBeanList" parameterType="string"
+		resultMap="riResultMap" >
+		select * from t_ri 
+			where 1=1
+        <if test="ri != '' and ri != null">    
+            and ri like '%' #{ri} '%'
+        </if>   
+         
+       
+        order by id desc
+		limit #{start}, #{limit}
+			
+	</select>
+	
+	
+	<select id="selectBeanCount" parameterType="string"
+		resultType="int" >
+		select count(id) from t_ri 
+			where 1=1
+        <if test="ri != '' and ri != null">    
+            and ri like '%' #{ri} '%'
+        </if>    
+	</select>
+	
+	
+	
+	
+	
+</mapper>
+
+
+
+
+
+
+

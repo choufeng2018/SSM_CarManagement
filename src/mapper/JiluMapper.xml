@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.dao.JiluDao">
+
+	<resultMap id="jiluResultMap" type="com.entity.Jilu">   
+        <id property="id" column="id"/> 
+        <result property="chepai" column="chepai"/>     
+        <result property="carid" column="carid"/>  
+        <result property="kehuid" column="kehuid"/>  
+        <result property="workid" column="workid"/>  
+        <result property="jishuid" column="jishuid"/>  
+        <result property="sfz" column="sfz"/>
+        <result property="dianhua" column="dianhua"/>
+        <result property="xingming" column="xingming"/>
+        <result property="sfz2" column="sfz2"/>
+        <result property="jsz" column="jsz"/>
+        <result property="shijian1" column="shijian1"/>
+        <result property="shijian2" column="shijian2"/>
+        <result property="tzujin" column="tzujin"/>
+        <result property="zhuangtai" column="zhuangtai"/>
+        <result property="tianshu" column="tianshu"/>
+        <result property="beizhu" column="beizhu"/>
+        <result property="weixiu" column="weixiu"/>
+       
+     </resultMap>  	
+
+	<!-- 插入到数据库 -->
+	<insert id="insertBean"
+		parameterType="com.entity.Jilu">
+		insert into t_jilu (chepai,carid,kehuid,workid,jishuid,sfz,dianhua,xingming,sfz2,jsz,shijian1,shijian2,tzujin,zhuangtai,tianshu,beizhu,weixiu) 
+		values (#{chepai},#{carid},#{kehuid},#{workid},#{jishuid},#{sfz},#{dianhua},#{xingming},#{sfz2},#{jsz},#{shijian1},#{shijian2},#{tzujin},#{zhuangtai},#{tianshu},#{beizhu},#{weixiu})
+	</insert>
+	
+	<!-- 根据ID删除数据库的记录 -->
+	<delete id="deleteBean"
+		parameterType="int">
+		delete from t_jilu
+		where id=#{id}	
+	</delete>
+	
+	<!-- 根据ID更新数据库的记录 -->
+	<update id="updateBean"
+		parameterType="com.entity.Jilu">
+		update
+			t_jilu 
+		<set>
+			<trim suffixOverrides=",">
+				
+				<if test="chepai !=null">
+					chepai=#{chepai},
+				</if>
+				<if test="carid !=null">
+					carid=#{carid},
+				</if>
+				<if test="kehuid !=null">
+					kehuid=#{kehuid},
+				</if>
+				<if test="workid !=null">
+					workid=#{workid},
+				</if>
+				<if test="jishuid !=null">
+					jishuid=#{jishuid},
+				</if>
+				<if test="sfz !=null">
+					sfz=#{sfz},
+				</if>
+				<if test="dianhua !=null">
+					dianhua=#{dianhua},
+				</if>
+				<if test="xingming !=null">
+					xingming=#{xingming},
+				</if>
+				<if test="sfz2 !=null">
+					sfz2=#{sfz2},
+				</if>
+				<if test="jsz !=null">
+					jsz=#{jsz},
+				</if>
+				<if test="shijian1 !=null">
+					shijian1=#{shijian1},
+				</if>
+				<if test="shijian2 !=null">
+					shijian2=#{shijian2},
+				</if>
+				<if test="tzujin !=null">
+					tzujin=#{tzujin},
+				</if>
+				<if test="zhuangtai !=null">
+					zhuangtai=#{zhuangtai},
+				</if>
+				<if test="tianshu !=null">
+					tianshu=#{tianshu},
+				</if>
+				<if test="beizhu !=null">
+					beizhu=#{beizhu},
+				</if>
+				<if test="weixiu !=null">
+					weixiu=#{weixiu}
+				</if>
+			</trim>
+		</set>
+		where 
+			id=#{id} 
+ 
+	</update>
+	
+
+	<select id="selectBeanById" parameterType="com.entity.Jilu"
+		resultMap="jiluResultMap" >
+		select * from t_jilu where id=#{id}   
+	</select>
+	
+	
+
+      
+   
+    <select id="selectBeanList" parameterType="string"
+		resultMap="jiluResultMap" >
+		select * from t_jilu 
+			where 1=1
+        <if test="chepai != '' and chepai != null">    
+            and chepai like '%' #{chepai} '%'
+        </if>   
+        <if test="sfz != '' and sfz != null">    
+            and sfz like '%' #{sfz} '%'
+        </if>    
+        <if test="xingming != '' and xingming != null">    
+            and xingming like '%' #{xingming} '%'
+        </if>    
+        <if test="zhuangtai != '' and zhuangtai != null">    
+            and zhuangtai like '%' #{zhuangtai} '%'
+        </if>   
+        <if test="workid != 0 ">    
+            and workid=#{workid}
+        </if>  
+        <if test="jishuid != 0 ">    
+            and jishuid=#{jishuid}
+        </if>  
+        <if test="kehuid != 0 ">    
+            and kehuid=#{kehuid}
+        </if>     
+       
+        order by id desc
+		limit #{start}, #{limit}
+			
+	</select>
+	
+	
+	<select id="selectBeanCount" parameterType="string"
+		resultType="int" >
+		select count(id) from t_jilu 
+			where 1=1
+        <if test="chepai != '' and chepai != null">    
+            and chepai like '%' #{chepai} '%'
+        </if>   
+        <if test="sfz != '' and sfz != null">    
+            and sfz like '%' #{sfz} '%'
+        </if>    
+        <if test="xingming != '' and xingming != null">    
+            and xingming like '%' #{xingming} '%'
+        </if>    
+        <if test="zhuangtai != '' and zhuangtai != null">    
+            and zhuangtai like '%' #{zhuangtai} '%'
+        </if>    
+        <if test="workid != 0 ">    
+            and workid=#{workid}
+        </if>   
+        <if test="jishuid != 0 ">    
+            and jishuid=#{jishuid}
+        </if>  
+        <if test="kehuid != 0 ">    
+            and kehuid=#{kehuid}
+        </if>       
+	</select>
+	
+	
+	
+	
+	
+</mapper>
+
+
+
+
+
+
+

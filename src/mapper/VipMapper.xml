@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.dao.VipDao">
+
+	<resultMap id="vipResultMap" type="com.entity.Vip">   
+        <id property="id" column="id"/>    
+        <result property="username" column="username"/>  
+        <result property="points" column="points"/>  
+        <result property="level" column="level"/>  
+        <result property="enddate" column="enddate"/>  
+        <result property="consumed" column="consumed"/>  
+       
+     </resultMap>  	
+
+	<!-- 插入到数据库 -->
+	<insert id="insertBean"
+		parameterType="com.entity.Vip">
+		insert into t_vip (username,points,level,enddate,consumed,kehuid) 
+		values (#{username},#{points},#{level},#{enddate},#{consumed},#{kehuid})
+	</insert>
+	
+	<!-- 根据ID删除数据库的记录 -->
+	<delete id="deleteBean"
+		parameterType="int">
+		delete from t_vip
+		where id=#{id}	
+	</delete>
+	
+	<!-- 根据ID更新数据库的记录 -->
+	<update id="updateBean"
+		parameterType="com.entity.Vip">
+		update
+			t_vip 
+		<set>
+			<trim suffixOverrides=",">
+				<if test="username !=null">
+					username=#{username},
+				</if>
+				<if test="points !=null">
+					points=#{points},
+				</if>
+				<if test="level !=null">
+					level=#{level},
+				</if>
+				<if test="enddate !=null">
+					enddate=#{enddate},
+				</if>
+				<if test="consumed !=null">
+					consumed=#{consumed},
+				</if>
+				<if test="kehuid !=null">
+					kehuid=#{kehuid},
+				</if>
+			</trim>
+		</set>
+		where 
+			username=#{username} 
+ 
+	</update>
+	
+
+	<select id="selectBeanByUsername" parameterType="String"
+		resultMap="vipResultMap" >
+		select * from t_vip where username=#{username}   
+	</select>
+	
+		<select id="selectBeanByKehuid" parameterType="int"
+		resultMap="vipResultMap" >
+		select * from t_vip where kehuid=#{kehuid}   
+	</select>
+	
+	
+
+      
+   
+<!--     <select id="selectBeanList" parameterType="string"
+		resultMap="vipResultMap" >
+		select * from t_vip 
+			where 1=1
+        <if test="ltitle != '' and ltitle != null">    
+            and ltitle like '%' #{ltitle} '%'
+        </if>   
+        <if test="zhuangtai != '' and zhuangtai != null">    
+            and zhuangtai like '%' #{zhuangtai} '%'
+        </if>    
+        <if test="kehuid !=0">    
+            and kehuid = #{kehuid} 
+        </if>    
+         <if test="workid !=0">    
+            and workid = #{workid} 
+        </if>   
+       
+        order by id desc
+		limit #{start}, #{limit}
+			
+	</select> -->
+	
+	
+<!-- 	<select id="selectBeanCount" parameterType="string"
+		resultType="int" >
+		select count(id) from t_vip 
+			where 1=1
+        <if test="ltitle != '' and ltitle != null">    
+            and ltitle like '%' #{ltitle} '%'
+        </if>   
+        <if test="zhuangtai != '' and zhuangtai != null">    
+            and zhuangtai like '%' #{zhuangtai} '%'
+        </if>    
+        <if test="kehuid !=0">    
+            and kehuid = #{kehuid} 
+        </if>    
+         <if test="workid !=0">    
+            and workid = #{workid} 
+        </if>  
+	</select> -->
+	
+
+	
+	
+	
+	
+</mapper>
+
+
+
+
+
+
+

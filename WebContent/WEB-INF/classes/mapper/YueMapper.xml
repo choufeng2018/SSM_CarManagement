@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.dao.YueDao">
+
+	<resultMap id="yueResultMap" type="com.entity.Yue">   
+        <id property="id" column="id"/>    
+        <result property="month" column="month"/>  
+        <result property="jine" column="jine"/>  
+        <result property="weihu" column="weihu"/>  
+       
+     </resultMap>  	
+
+	<!-- 插入到数据库 -->
+	<insert id="insertBean"
+		parameterType="com.entity.Yue">
+		insert into t_yue (month,jine,weihu) 
+		values (#{month},#{jine},#{weihu})
+	</insert>
+	
+	<!-- 根据ID删除数据库的记录 -->
+	<delete id="deleteBean"
+		parameterType="int">
+		delete from t_yue
+		where id=#{id}	
+	</delete>
+	
+	<!-- 根据ID更新数据库的记录 -->
+	<update id="updateBean"
+		parameterType="com.entity.Yue">
+		update
+			t_yue 
+		<set>
+			<trim suffixOverrides=",">
+				
+				<if test="month !=null">
+					month=#{month},
+				</if>
+				<if test="jine !=null">
+					jine=#{jine},
+				</if>
+				<if test="weihu !=null">
+					weihu=#{weihu}
+				</if>
+				
+			</trim>
+		</set>
+		where 
+			id=#{id} 
+ 
+	</update>
+	
+
+	<select id="selectBeanById" parameterType="com.entity.Yue"
+		resultMap="yueResultMap" >
+		select * from t_yue where id=#{id}   
+	</select>
+	
+	
+
+      
+   
+    <select id="selectBeanList" parameterType="string"
+		resultMap="yueResultMap" >
+		select * from t_yue 
+			where 1=1
+        <if test="month != '' and month != null">    
+            and month like '%' #{month} '%'
+        </if>   
+           
+       
+        order by id desc
+		limit #{start}, #{limit}
+			
+	</select>
+	
+	
+	<select id="selectBeanCount" parameterType="string"
+		resultType="int" >
+		select count(id) from t_yue 
+			where 1=1
+        <if test="month != '' and month != null">    
+            and month like '%' #{month} '%'
+        </if>   
+	</select>
+	
+	
+	
+	
+	
+</mapper>
+
+
+
+
+
+
+
